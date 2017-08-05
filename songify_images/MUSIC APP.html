@@ -1,0 +1,128 @@
+
+<!-- saved from url=(0046)file:///F:/acadview%20front%20end/songify.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>MUSIC APP</title>
+<style>
+	#divcenter{
+		margin:15% 27% 10% 30%;
+		background-color:#A9A9A9;
+		padding:5%;
+		
+	}
+	body{
+		background-color:#778899;
+	}
+	.hidden{
+		display:none;
+	}
+	#name{
+		position:absolute;
+		top:0;
+		left:80%;
+		width:20%;
+		padding:5px;
+		background-color:#DCDCDC;
+		
+	}
+	#songlist{
+		list-style-type:none;
+	}
+	#song
+</style>
+</head>
+<body>
+<div id="divcenter">
+	<h1>Welcome to Songify</h1>
+	<h3>Enter name to access your account</h3>
+	<input type="text" placeholder="username" id="username">
+	<button id="goButton">Go</button>
+</div>
+<h3 id="name" class="hidden">Welcome to songify </h3><br><br>
+ <div id="songlistdiv" class="hidden">
+	<br><hr>
+	<ul id="songlist">
+		<li id="0"></li>
+		<li id="1"></li>
+		<li id="2"></li>
+		<li id="3"></li>
+	</ul>
+	<hr>
+	<img id="songimg">
+	<audio controls="" id="audio1"></audio>
+ </div>
+<script src="./MUSIC APP_files/jquery.js.download"></script>
+<script>
+var songarray=['Charlie Puth Feat. Meghan Trainor - Marvin Gaye','What Do You Mean','Akon ft. Kardinal Offishall'];
+var songdetails = {
+	'Charlie Puth Feat. Meghan Trainor - Marvin Gaye':{
+		'artist':'Charlie Puth',
+		'duration' :"3:10"
+	},
+	'What Do You Mean':{
+		'artist':'justin bieber',
+		'duration' :"3:30"
+	},
+	'Akon ft. Kardinal Offishall':{
+		'artist':'akon',
+		'duration' :"4:13"
+	}
+}
+
+
+$("#goButton").on("click",function(){
+	$("#divcenter").addClass("hidden");
+	var name = $("#username").val();
+	//remove hidden class 
+	$("#name").removeClass("hidden");
+	$("#songlistdiv").removeClass("hidden");
+	$("#name").append(name);
+	
+});
+function toggelSong(song)
+{	
+	if(song.paused)
+	{
+		console.log("true"+song.paused)
+		song.play();
+	}
+	else
+	{
+		song.pause();
+	}
+}
+function SongEventListener(songname,pos)
+{
+	id="#"+pos;
+	$(id).on("click",function()
+	{
+		$("#songimg").src ="songify_images" + ''\'' + songname +'.png';
+		var song = $("#audio1");
+		var currentSong=song[0].src;
+		console.log(songname);
+		console.log("current song"+currentSong);
+		currentSong = (currentSong).split("%20").reduce(function(elem1,elem2){return elem1+ ' ' +elem2})
+		console.log("current song"+currentSong);
+		if(currentSong.search(songname) != -1)
+		{
+			toggelSong(song[0]);
+		}
+		else
+		{
+			song[0].src=songarray[pos] + ".mp3";
+			song[0].play();
+		}
+	});
+}
+for(i=0;i<songarray.length;i++)
+{
+	id='#'+i;
+	$(id).text(songarray[i]);
+	SongEventListener(songarray[i],i);
+}
+
+
+
+</script>
+
+
+</body></html>
